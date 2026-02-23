@@ -2,50 +2,91 @@
 
 /**
  * AdSlot.tsx
- * Placeholder ad components. Replace the inner div with AdSense script + ins tags.
- * See README.md "Where to Add AdSense" for the exact replacement code.
+ * Live Google AdSense ad units.
+ * Publisher: ca-pub-1518235509399666
  *
- * Layout rules enforced here:
+ * Layout rules:
  * - Sidebar: strictly hidden below 1024px (lg breakpoint)
- * - All variants: 24px (p-6) padding around the ad unit
- * - "Advertisement" label always visible
- * - Ads never overlap tool controls — placed in dedicated layout slots
+ * - All variants: 24px padding around ad unit
+ * - "Advertisement" label always visible above each unit
+ * - Ads never overlap tool controls or textarea
+ *
+ * Ad format: responsive display ads (data-ad-format="auto")
+ * These auto-size to fit the available space in each slot.
+ * Once you create manual ad units in AdSense dashboard, replace
+ * data-ad-slot="auto" with your specific slot IDs per unit.
  */
+
+import { useEffect } from "react";
 
 interface AdSlotProps {
   variant: "top" | "belowTool" | "sidebar" | "footer";
 }
 
+declare global {
+  interface Window {
+    adsbygoogle: unknown[];
+  }
+}
+
+function AdUnit({ slotId, format = "auto", fullWidth = true }: {
+  slotId: string;
+  format?: string;
+  fullWidth?: boolean;
+}) {
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch {
+      // adsbygoogle not loaded yet — Auto Ads will handle it
+    }
+  }, []);
+
+  return (
+    <ins
+      className="adsbygoogle"
+      style={{ display: "block" }}
+      data-ad-client="ca-pub-1518235509399666"
+      data-ad-slot={slotId}
+      data-ad-format={format}
+      data-full-width-responsive={fullWidth ? "true" : "false"}
+    />
+  );
+}
+
 export function AdSlot({ variant }: AdSlotProps) {
   if (variant === "sidebar") {
-    // Sidebar: STRICTLY desktop only — hidden on tablet and mobile
     return (
-      <aside className="hidden lg:block w-[160px] shrink-0" aria-label="Advertisement sidebar">
-        <div className="sticky top-6 w-[160px] min-h-[600px] p-6 border-2 border-dashed border-brand-border rounded-lg flex flex-col items-center justify-center gap-2 bg-brand-surface-alt">
-          {/* Replace this placeholder with your AdSense script */}
-          <span className="text-xs font-medium text-brand-muted uppercase tracking-wider select-none">
+      <aside
+        className="hidden lg:block w-[160px] shrink-0"
+        aria-label="Advertisement sidebar"
+      >
+        <div className="sticky top-6 w-[160px] min-h-[600px] p-3 flex flex-col items-center gap-2">
+          <span className="text-[10px] font-medium text-brand-muted uppercase tracking-wider select-none w-full text-center">
             Advertisement
           </span>
-          <span className="text-xs text-brand-border select-none">160×600</span>
+          <div className="w-full flex-1">
+            <AdUnit slotId="auto" format="auto" fullWidth={false} />
+          </div>
         </div>
       </aside>
     );
   }
 
   if (variant === "top") {
-    // Top: below header/H1, above main content — never above page title
     return (
       <div
         className="w-full ad-slot-top"
         aria-label="Advertisement"
         role="complementary"
       >
-        <div className="w-full min-h-[90px] p-6 border-2 border-dashed border-brand-border rounded-lg flex flex-col items-center justify-center gap-1 bg-brand-surface-alt">
-          {/* Replace this placeholder with your AdSense script */}
-          <span className="text-xs font-medium text-brand-muted uppercase tracking-wider select-none">
+        <div className="w-full min-h-[90px] p-2 flex flex-col items-center gap-1">
+          <span className="text-[10px] font-medium text-brand-muted uppercase tracking-wider select-none">
             Advertisement
           </span>
-          <span className="text-xs text-brand-border select-none">728×90 Leaderboard</span>
+          <div className="w-full">
+            <AdUnit slotId="auto" format="auto" />
+          </div>
         </div>
       </div>
     );
@@ -58,12 +99,13 @@ export function AdSlot({ variant }: AdSlotProps) {
         aria-label="Advertisement"
         role="complementary"
       >
-        <div className="w-full min-h-[90px] p-6 border-2 border-dashed border-brand-border rounded-lg flex flex-col items-center justify-center gap-1 bg-brand-surface-alt">
-          {/* Replace this placeholder with your AdSense script */}
-          <span className="text-xs font-medium text-brand-muted uppercase tracking-wider select-none">
+        <div className="w-full min-h-[90px] p-2 flex flex-col items-center gap-1">
+          <span className="text-[10px] font-medium text-brand-muted uppercase tracking-wider select-none">
             Advertisement
           </span>
-          <span className="text-xs text-brand-border select-none">728×90 / Responsive</span>
+          <div className="w-full">
+            <AdUnit slotId="auto" format="auto" />
+          </div>
         </div>
       </div>
     );
@@ -76,12 +118,13 @@ export function AdSlot({ variant }: AdSlotProps) {
       aria-label="Advertisement"
       role="complementary"
     >
-      <div className="w-full min-h-[90px] p-6 border-2 border-dashed border-brand-border rounded-lg flex flex-col items-center justify-center gap-1 bg-brand-surface-alt">
-        {/* Replace this placeholder with your AdSense script */}
-        <span className="text-xs font-medium text-brand-muted uppercase tracking-wider select-none">
+      <div className="w-full min-h-[90px] p-2 flex flex-col items-center gap-1">
+        <span className="text-[10px] font-medium text-brand-muted uppercase tracking-wider select-none">
           Advertisement
         </span>
-        <span className="text-xs text-brand-border select-none">728×90 Footer Banner</span>
+        <div className="w-full">
+          <AdUnit slotId="auto" format="auto" />
+        </div>
       </div>
     </div>
   );

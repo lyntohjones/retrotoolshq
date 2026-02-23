@@ -176,6 +176,12 @@ export default function RootLayout({
     <html lang='en' className={inter.variable}>
       <head>
         <link rel='icon' href='/favicon.ico' sizes='any' />
+        {/* Google AdSense — Auto Ads + publisher verification */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1518235509399666"
+          crossOrigin="anonymous"
+        />
         <script
           type='application/ld+json'
           dangerouslySetInnerHTML={{
