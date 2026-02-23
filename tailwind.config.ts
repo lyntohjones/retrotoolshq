@@ -21,6 +21,12 @@ const config: Config = {
           "surface-alt": "#F0EEE9",
           error: "#EF4444",
           "error-light": "#FEE2E2",
+          // Dark dashboard tokens — stat cards premium style
+          "dark-surface": "#1E2530",
+          "dark-surface-alt": "#252D3A",
+          "dark-border": "#2E3847",
+          "dark-text": "#F0F4F8",
+          "dark-muted": "#8B95A8",
         },
       },
       fontFamily: {

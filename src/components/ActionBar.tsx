@@ -48,14 +48,14 @@ function ActionButton({
   errorLabel = "Failed",
 }: ActionButtonProps) {
   const base =
-    "min-h-[44px] px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-1.5 transition-all duration-150 border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap";
+    "min-h-[44px] px-3.5 py-2 rounded-xl text-sm font-semibold flex items-center gap-1.5 transition-all duration-150 border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap";
   const variants = {
     default:
-      "bg-brand-surface border-brand-border text-brand-text hover:border-brand-accent hover:text-brand-accent",
+      "bg-brand-surface border-brand-border text-brand-text hover:border-brand-accent hover:text-brand-accent shadow-sm hover:shadow",
     danger:
-      "bg-brand-surface border-brand-border text-brand-muted hover:border-brand-error hover:text-brand-error",
+      "bg-brand-surface border-brand-border text-brand-muted hover:border-brand-error hover:text-brand-error shadow-sm",
     accent:
-      "bg-brand-accent border-brand-accent text-brand-text hover:bg-brand-accent-dark hover:border-brand-accent-dark",
+      "bg-brand-accent border-brand-accent text-brand-text hover:bg-brand-accent-dark hover:border-brand-accent-dark shadow-sm hover:shadow-md",
   };
   const stateStyles: Record<ButtonState, string> = {
     idle: "",

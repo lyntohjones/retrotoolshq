@@ -2,7 +2,8 @@
 
 /**
  * StatsCards.tsx
- * Live stats grid: characters, words, sentences, paragraphs, reading & speaking time.
+ * Live stats grid — dark premium dashboard style.
+ * Uses .stat-card-dark CSS classes from globals.css (no new libs).
  */
 
 import { formatTime } from "@/lib/textTools";
@@ -21,21 +22,24 @@ interface StatCardProps {
   label: string;
   value: string | number;
   sub?: string;
+  accentValue?: boolean;
 }
 
-function StatCard({ label, value, sub }: StatCardProps) {
+function StatCard({ label, value, sub, accentValue = false }: StatCardProps) {
   return (
-    <div className="bg-brand-surface border border-brand-border rounded-lg p-3 sm:p-4 flex flex-col justify-between min-h-[72px]">
-      <p className="text-[11px] font-semibold text-brand-muted uppercase tracking-wider leading-tight">
-        {label}
-      </p>
-      <div className="mt-1.5">
-        <p className="text-xl sm:text-2xl font-bold text-brand-text tabular-nums leading-none">
+    <div className="stat-card-dark p-3 sm:p-4">
+      <p className="stat-card-dark-label">{label}</p>
+      <div>
+        <p
+          className={
+            accentValue
+              ? "stat-card-dark-value stat-card-dark-value-accent"
+              : "stat-card-dark-value"
+          }
+        >
           {typeof value === "number" ? value.toLocaleString() : value}
         </p>
-        {sub && (
-          <p className="text-[10px] text-brand-muted mt-0.5 leading-tight">{sub}</p>
-        )}
+        {sub && <p className="stat-card-dark-sub">{sub}</p>}
       </div>
     </div>
   );
@@ -57,31 +61,28 @@ export function StatsCards({
       aria-live="polite"
       aria-atomic="false"
     >
-      <StatCard
-        label="Characters"
-        value={charsWithSpaces}
-        sub="with spaces"
-      />
-      <StatCard
-        label="Characters"
-        value={charsWithoutSpaces}
-        sub="without spaces"
-      />
+      {/* Primary card — teal accent on the headline char count */}
+      <StatCard label="Characters" value={charsWithSpaces} sub="with spaces" accentValue />
+      <StatCard label="Characters" value={charsWithoutSpaces} sub="without spaces" />
       <StatCard label="Words" value={words} />
       <StatCard label="Sentences" value={sentences} />
       <StatCard label="Paragraphs" value={paragraphs} />
-      <div className="bg-brand-surface border border-brand-border rounded-lg p-3 sm:p-4 min-h-[72px] col-span-1">
-        <p className="text-[11px] font-semibold text-brand-muted uppercase tracking-wider leading-tight">
-          Read / Speak
-        </p>
-        <div className="mt-1.5 space-y-0.5">
-          <p className="text-sm font-bold text-brand-text leading-tight">
+
+      {/* Read / Speak combined card — dark style inline */}
+      <div className="stat-card-dark p-3 sm:p-4">
+        <p className="stat-card-dark-label">Read / Speak</p>
+        <div className="mt-1.5 space-y-1">
+          <p className="text-sm font-bold leading-tight" style={{ color: "#F0F4F8" }}>
             {formatTime(readingTimeMinutes)}
-            <span className="text-[10px] font-normal text-brand-muted ml-1">read</span>
+            <span className="text-[10px] font-normal ml-1.5" style={{ color: "#8B95A8" }}>
+              read
+            </span>
           </p>
-          <p className="text-sm font-bold text-brand-text leading-tight">
+          <p className="text-sm font-bold leading-tight" style={{ color: "#F0F4F8" }}>
             {formatTime(speakingTimeMinutes)}
-            <span className="text-[10px] font-normal text-brand-muted ml-1">speak</span>
+            <span className="text-[10px] font-normal ml-1.5" style={{ color: "#8B95A8" }}>
+              speak
+            </span>
           </p>
         </div>
       </div>

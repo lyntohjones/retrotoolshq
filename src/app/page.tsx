@@ -99,67 +99,81 @@ export default function HomePage() {
       <Header />
 
       <main id="main-content" className="flex-1">
-        {/* ── 2. Top Ad Banner (below header, above H1) ────────────────── */}
-        <div className="max-w-container mx-auto px-4 sm:px-6 pt-4 pb-2 no-print">
-          <div className="ad-slot-top" style={{ minHeight: 90 }}>
-            <AdSlot variant="top" />
+        {/* ── 2. Hero zone — dot-grid texture, ad + H1 ────────────────── */}
+        <div className="hero-grid border-b border-brand-border">
+          {/* Top Ad Banner */}
+          <div className="max-w-container mx-auto px-4 sm:px-6 pt-4 pb-0 no-print">
+            <div className="ad-slot-top" style={{ minHeight: 90 }}>
+              <AdSlot variant="top" />
+            </div>
+          </div>
+          {/* H1 + hero copy + CTAs */}
+          <div className="max-w-container mx-auto px-4 sm:px-6 pt-6 pb-8">
+            <ToolHeader
+              onStartCounting={scrollToTool}
+              onSeePresets={() => {
+                document
+                  .getElementById("x-character-counter")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
+            />
           </div>
         </div>
 
-        {/* ── 3. Tool Area ─────────────────────────────────────────────── */}
+        {/* ── 3. Tool Area — elevated card ─────────────────────────────── */}
         <section
           id="tool"
           className="max-w-container mx-auto px-4 sm:px-6 py-6"
           aria-labelledby="tool-heading"
         >
-          {/* H1 — exactly one per page */}
-          <ToolHeader />
-
-          {/* Preset selector */}
-          <div className="mb-5" style={{ minHeight: 88 }}>
-            <PresetSelector
-              selectedId={selectedPresetId}
-              charCount={charCount}
-              onSelect={handlePresetSelect}
-            />
-          </div>
-
-          {/* Two-column layout: main content | sidebar ad */}
-          <div className="flex gap-6 items-start">
-            {/* Left / main column */}
-            <div className="flex-1 min-w-0 space-y-4">
-              {/* Textarea */}
-              <TextArea value={text} onChange={handleTextChange} />
-
-              {/* Action buttons */}
-              <div className="no-print">
-                <ActionBar
-                  text={text}
-                  stats={stats}
-                  onTextChange={handleTextChange}
-                />
-              </div>
-
-              {/* Live stats — pre-allocated height to prevent CLS */}
-              <div style={{ minHeight: 160 }}>
-                <StatsCards
-                  charsWithSpaces={stats.charsWithSpaces}
-                  charsWithoutSpaces={stats.charsWithoutSpaces}
-                  words={stats.words}
-                  sentences={stats.sentences}
-                  paragraphs={stats.paragraphs}
-                  readingTimeMinutes={stats.readingTimeMinutes}
-                  speakingTimeMinutes={stats.speakingTimeMinutes}
-                />
-              </div>
-
-              {/* Keyword density accordion */}
-              <KeywordDensity text={debouncedText} />
+          {/* Elevated tool card */}
+          <div className="tool-card p-4 sm:p-6 space-y-5">
+            {/* Preset selector */}
+            <div style={{ minHeight: 88 }}>
+              <PresetSelector
+                selectedId={selectedPresetId}
+                charCount={charCount}
+                onSelect={handlePresetSelect}
+              />
             </div>
 
-            {/* Right column — sidebar ad (hidden below lg via AdSlot) */}
-            <div className="no-print shrink-0">
-              <AdSlot variant="sidebar" />
+            {/* Two-column layout: main content | sidebar ad */}
+            <div className="flex gap-6 items-start">
+              {/* Left / main column */}
+              <div className="flex-1 min-w-0 space-y-4">
+                {/* Textarea */}
+                <TextArea value={text} onChange={handleTextChange} />
+
+                {/* Action buttons */}
+                <div className="no-print">
+                  <ActionBar
+                    text={text}
+                    stats={stats}
+                    onTextChange={handleTextChange}
+                  />
+                </div>
+
+                {/* Live stats — pre-allocated height to prevent CLS */}
+                <div style={{ minHeight: 160 }}>
+                  <StatsCards
+                    charsWithSpaces={stats.charsWithSpaces}
+                    charsWithoutSpaces={stats.charsWithoutSpaces}
+                    words={stats.words}
+                    sentences={stats.sentences}
+                    paragraphs={stats.paragraphs}
+                    readingTimeMinutes={stats.readingTimeMinutes}
+                    speakingTimeMinutes={stats.speakingTimeMinutes}
+                  />
+                </div>
+
+                {/* Keyword density accordion */}
+                <KeywordDensity text={debouncedText} />
+              </div>
+
+              {/* Right column — sidebar ad (hidden below lg via AdSlot) */}
+              <div className="no-print shrink-0">
+                <AdSlot variant="sidebar" />
+              </div>
             </div>
           </div>
         </section>
