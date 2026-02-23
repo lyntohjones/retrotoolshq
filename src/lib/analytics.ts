@@ -10,35 +10,49 @@ declare global {
   }
 }
 
-/**
- * Fire a Google Analytics event via gtag.
- * Safe to call even when gtag is not loaded — it will silently no-op.
- *
- * @param eventName - GA4 event name (e.g., "preset_change")
- * @param params - Optional event parameters
- */
+/** Bucket text length into ranges for analytics params */
+function lengthBucket(len: number): string {
+  if (len === 0) return '0';
+  if (len <= 140) return '1-140';
+  if (len <= 280) return '141-280';
+  if (len <= 500) return '281-500';
+  if (len <= 2200) return '501-2200';
+  return '2200+';
+}
+
 export function trackEvent(eventName: string, params?: Record<string, string>): void {
-  if (typeof window === "undefined") return;
-  if (typeof window.gtag !== "function") return;
-  window.gtag("event", eventName, params);
+  if (typeof window === 'undefined') return;
+  if (typeof window.gtag !== 'function') return;
+  window.gtag('event', eventName, params);
 }
 
-// ---------------------------------------------------------------------------
-// Named event helpers — use these throughout the app
-// ---------------------------------------------------------------------------
-
-export function trackPresetChange(presetName: string): void {
-  trackEvent("preset_change", { preset_name: presetName });
+export function trackPresetChange(presetName: string, textLength?: number): void {
+  trackEvent('preset_change', {
+    preset_name: presetName,
+    ...(textLength !== undefined ? { text_length_bucket: lengthBucket(textLength) } : {}),
+  });
 }
 
-export function trackTextPaste(): void {
-  trackEvent("text_paste");
+export function trackTextPaste(textLength?: number): void {
+  trackEvent('text_paste', {
+    ...(textLength !== undefined ? { text_length_bucket: lengthBucket(textLength) } : {}),
+  });
 }
 
-export function trackTextCopy(): void {
-  trackEvent("text_copy");
+export function trackTextCopy(textLength?: number): void {
+  trackEvent('text_copy', {
+    ...(textLength !== undefined ? { text_length_bucket: lengthBucket(textLength) } : {}),
+  });
 }
 
-export function trackReportDownload(): void {
-  trackEvent("report_download");
+export function trackReportDownload(textLength?: number): void {
+  trackEvent('report_download', {
+    ...(textLength !== undefined ? { text_length_bucket: lengthBucket(textLength) } : {}),
+  });
+}
+
+export function trackShareClick(textLength?: number): void {
+  trackEvent('share_click', {
+    ...(textLength !== undefined ? { text_length_bucket: lengthBucket(textLength) } : {}),
+  });
 }

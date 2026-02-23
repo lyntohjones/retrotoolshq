@@ -1,7 +1,9 @@
 /**
  * Footer.tsx
- * Simple footer with navigation placeholders and brand credit.
+ * Site footer with navigation links to policy routes and brand credit.
  */
+
+import Link from "next/link";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -30,12 +32,12 @@ export function Footer() {
             <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
               {links.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
-                    className="text-xs text-brand-muted hover:text-brand-accent transition-colors underline-offset-2 hover:underline"
+                    className="text-xs text-brand-muted hover:text-brand-accent transition-colors underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent rounded"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
